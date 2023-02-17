@@ -4,6 +4,7 @@
   "description": "",
   "keywords": [],
   "main": "src/index.js",
+  "homepage": ".",
   "dependencies": {
     "gs1-barcode-parser-mod2": "1.0.6",
     "react": "18.2.0",
