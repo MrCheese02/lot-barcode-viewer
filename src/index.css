@@ -1,0 +1,13 @@
+body {
+  font-family: Arial;
+}
+
+.dataTable {
+  width: 75%;
+  background-color: lightgrey;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+}
