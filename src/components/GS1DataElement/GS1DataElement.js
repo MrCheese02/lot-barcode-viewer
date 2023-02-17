@@ -18,9 +18,7 @@ class GS1DataElement extends React.Component {
     return (
       <CopyToClipboard
         text={
-          this.props.copyContent == null
-            ? this.props.copyContent
-            : this.props.content
+          this.props.copyContent ?? this.props.content
         }
         onCopy={this.onCopy}
         className="gs1-data-element"
