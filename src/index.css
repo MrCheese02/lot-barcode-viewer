@@ -11,3 +11,10 @@ footer {
   position: absolute;
   bottom: 0;
 }
+
+#barcodeInput {
+  padding: 12px;
+  margin: 24px;
+  font-size: large;
+  width: 90%;
+}

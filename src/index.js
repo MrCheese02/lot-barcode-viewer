@@ -9,50 +9,29 @@ class App extends React.Component {
     super();
     this.state = {
       barcode: "]C1010503238450574617230301103609085",
-      inProgressBarcode: ""
+      inProgressBarcode: "",
+      isInvalidBarcode: false,
     };
+    this.barcodeInputRef = React.createRef("barcodeInput");
   }
 
-  onInput = (e) => {
-    this.setState({ barcode: e.target.value });
+  onBarcodeInput = (e) => {
+    this.setState({ inProgressBarcode: e.target.value });
   };
 
   keydownHandler = (e) => {
-    //e.preventDefault();
-    // check if it was normal keyboard input (> 10 ms)
-    const now = Date.now();
-    if (
-      this.state.lastCharReceived != null &&
-      now - this.state.lastCharReceived > 50
-    ) {
-      console.log("was user input --> resetting!");
-      this.setState({ inProgressBarcode: "", lastCharReceived: now });
-    }
-    this.setState({ lastCharReceived: now });
+    // auto focus barcode field on input
+    this.barcodeInputRef.current.focus();
 
-    // last char is a tab (9)
-    console.log("CharCode: " + e.which);
-    console.log("inProgressBarcode: " + this.state.inProgressBarcode);
+    // set new barcode and clear field on tab
     if (e.which === 9) {
       console.log("detected tab");
       this.setState({
         inProgressBarcode: "",
-        barcode: this.state.inProgressBarcode
+        barcode: this.state.inProgressBarcode,
+        isInvalidBarcode: false,
       });
-      return;
-    }
-
-    const newChar = String.fromCharCode(e.which);
-    console.log("Char: " + newChar);
-
-    this.setState({
-      inProgressBarcode: this.state.inProgressBarcode + newChar
-    });
-    // remove ctrl codes
-    if (this.state.inProgressBarcode === "\x11\x12\x39\x10") {
-      this.setState({
-        inProgressBarcode: "]"
-      });
+      e.preventDefault();
     }
   };
 
@@ -85,12 +64,24 @@ class App extends React.Component {
       lot = items.find((i) => i.ai === "10").data;
     } catch (e) {
       console.log("parseBarcode error for " + this.state.barcode + ": " + e);
+      this.setState({ isInvalidBarcode: true, barcode: null });
     }
 
     return (
       <div>
         <h1>Barcode</h1>
-        <h2>{this.state.barcode}</h2>
+        {!this.state.isInvalidBarcode ? (
+          <h2>{this.state.barcode}</h2>
+        ) : (
+          <h2>Ungültiger Barcode!!!</h2>
+        )}
+        <input
+          id="barcodeInput"
+          autoFocus
+          onChange={this.onBarcodeInput}
+          ref={this.barcodeInputRef}
+          value={this.state.inProgressBarcode}
+        />
         <table className="dataTable" align="center">
           <thead>
             <tr>
