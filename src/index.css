@@ -18,3 +18,11 @@ footer {
   font-size: large;
   width: 90%;
 }
+
+#invalid-barcode {
+  color: red;
+}
+
+#valid-barcode {
+  color: green;
+}

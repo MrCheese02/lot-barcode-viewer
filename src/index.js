@@ -49,31 +49,38 @@ class App extends React.Component {
   }
 
   render() {
-    let items, gtin, expiry, expiryStr, lot;
-    try {
-      items = gs1.parseBarcode(this.state.barcode).parsedCodeItems;
-      console.log("barcode ais: " + items.map((i) => i.ai));
-      gtin = items.find((i) => i.ai === "01").data;
-      expiry = items.find((i) => i.ai === "17").data;
-      expiryStr =
-        ("0" + expiry.getDate()).slice(-2) +
-        "." +
-        ("0" + (expiry.getMonth() + 1)).slice(-2) +
-        "." +
-        expiry.getFullYear();
-      lot = items.find((i) => i.ai === "10").data;
-    } catch (e) {
-      console.log("parseBarcode error for " + this.state.barcode + ": " + e);
-      this.setState({ isInvalidBarcode: true, barcode: null });
+    let items,
+      gtin,
+      expiry,
+      expiryStr,
+      lot,
+      isInvalidBarcode = false;
+    if (this.state.barcode != null) {
+      try {
+        items = gs1.parseBarcode(this.state.barcode).parsedCodeItems;
+        console.log("barcode ais: " + items.map((i) => i.ai));
+        gtin = items.find((i) => i.ai === "01").data;
+        expiry = items.find((i) => i.ai === "17").data;
+        expiryStr =
+          ("0" + expiry.getDate()).slice(-2) +
+          "." +
+          ("0" + (expiry.getMonth() + 1)).slice(-2) +
+          "." +
+          expiry.getFullYear();
+        lot = items.find((i) => i.ai === "10").data;
+      } catch (e) {
+        console.log("parseBarcode error for " + this.state.barcode + ": " + e);
+        isInvalidBarcode = true;
+      }
     }
 
     return (
       <div>
         <h1>Barcode</h1>
-        {!this.state.isInvalidBarcode ? (
-          <h2>{this.state.barcode}</h2>
+        {!isInvalidBarcode ? (
+          <h2 id="valid-barcode">{this.state.barcode}</h2>
         ) : (
-          <h2>Ungültiger Barcode!!!</h2>
+          <h2 id="invalid-barcode">Ungültiger Barcode!!!</h2>
         )}
         <input
           id="barcodeInput"
