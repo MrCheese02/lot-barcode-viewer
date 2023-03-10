@@ -1,21 +1,38 @@
 .gs1-data-element {
+  position: relative;
   color: green;
   font-size: 24px;
   padding: 24px;
 }
 
+.gs1-data-element:hover {
+  text-decoration: underline;
+}
+
 .copy-message {
-  /*position: fixed;
-  top: 50%;
+  transform: translate(-50%);
   left: 50%;
-  transform: translate(-50%, -50%);*/
   background-color: #4caf50;
   color: white;
   font-size: 16px;
   padding: 10px 20px;
   border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
+  position: absolute;
+  z-index: 9;
+}
+
+.copy-message::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translate(-50%) rotate(45deg);
+  width: 16px;
+  height: 16px;
+  background-color: #4caf50;
 }
 
 .copy-message.show {

@@ -38,7 +38,7 @@ class GS1DataElement extends React.Component {
           <p>{this.props.content}</p>
           {this.state.showCopyMessage ? (
             <div className="copy-message show" id="copyMessage">
-              Text kopiert!
+              Kopiert!
             </div>
           ) : null}
         </td>
